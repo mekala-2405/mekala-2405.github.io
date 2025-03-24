@@ -2,14 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=https://mekala-port.netlify.app/">
-    <title>Hello...Redirecting...</title>
+    <title>Choose Your Destination</title>
     <script>
-        // JavaScript fallback to ensure redirect happens
-        window.location.href = "https://mekala-port.netlify.app/";
+        function redirectTo(url) {
+            window.location.href = url;
+        }
     </script>
 </head>
 <body>
-    <p>If you are not redirected automatically, <a href="https://mekala-port.netlify.app/">click here</a>.</p>
+    <h1>Welcome! Please choose your destination:</h1>
+    <button onclick="redirectTo('https://mekala-port.netlify.app/')">Go to Main Website</button>
+    <button onclick="redirectTo('https://v0-airline-review-analyzer.vercel.app/')">Go to Airline Review Analyzer</button>
+    <p>If you are not redirected automatically, <a href="https://mekala-port.netlify.app/">click here</a> or <a href="https://v0-airline-review-analyzer.vercel.app/">here</a>.</p>
 </body>
 </html>
