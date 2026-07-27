@@ -26,6 +26,8 @@ const ICONS: Record<string, string> = {
     '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>',
   mail:
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 6 10 7L22 6"/></svg>',
+  discord:
+    '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.32 4.47a18.93 18.93 0 0 0-4.7-1.46.07.07 0 0 0-.07.04 13.2 13.2 0 0 0-.58 1.2 17.69 17.69 0 0 0-5.3 0 12.56 12.56 0 0 0-.58-1.2.08.08 0 0 0-.07-.04 18.86 18.86 0 0 0-4.7 1.46.06.06 0 0 0-.03.03C2.2 7.79 1.5 10.99 1.84 14.15v.04a.08.08 0 0 0 .03.05 18.94 18.94 0 0 0 5.7 2.88.08.08 0 0 0 .09-.03 13.5 13.5 0 0 0 1.16-1.9.08.08 0 0 0-.04-.1 12.42 12.42 0 0 1-1.77-.85.08.08 0 0 1 0-.13l.35-.27a.07.07 0 0 1 .07-.01 13.4 13.4 0 0 1 11.4 0 .07.07 0 0 1 .07.01l.35.27a.08.08 0 0 1 0 .13 11.6 11.6 0 0 1-1.77.85.08.08 0 0 0-.04.1c.34.66.74 1.29 1.16 1.9a.08.08 0 0 0 .09.03 18.88 18.88 0 0 0 5.7-2.88.08.08 0 0 0 .03-.05v-.04c.4-3.68-.5-6.87-2.64-9.65a.05.05 0 0 0-.03-.03zM8.3 12.67c-1.02 0-1.86-.94-1.86-2.1s.8-2.1 1.86-2.1 1.87.94 1.86 2.1-.8 2.1-1.86 2.1zm7.4 0c-1.02 0-1.86-.94-1.86-2.1s.8-2.1 1.86-2.1 1.87.94 1.86 2.1-.8 2.1-1.86 2.1z"/></svg>',
 };
 
 function renderApp(): void {
@@ -48,7 +50,7 @@ function renderApp(): void {
     )
     .join('');
 
-  const aboutHtml = d.about.map((p) => `<p>${p}</p>`).join('');
+  const aboutHtml = `<img class="headshot" src="/headshot.jpeg" alt="Harsh Vardhan Reddy Mekala" loading="lazy" />` + d.about.map((p) => `<p>${p}</p>`).join('');
 
   const expHtml = d.experience
     .map(
@@ -62,6 +64,7 @@ function renderApp(): void {
             <h3 class="work-role display">${e.role}</h3>
             <p class="work-desc">${e.desc}</p>
             <div class="work-tags">${e.tags.map((t) => `<span class="work-tag">${t}</span>`).join('')}</div>
+            ${e.image ? `<img class="exp-img" src="${e.image}" alt="${e.company}" loading="lazy" />` : ''}
           </div>
         </div>`
     )
@@ -162,19 +165,21 @@ function renderApp(): void {
       <p class="contact-eyebrow reveal">What's next</p>
       <h2 class="contact-heading display reveal reveal-1">LET'S BUILD<br>SOMETHING</h2>
       <p class="contact-sub reveal reveal-2">Open to internships, collaborations, and interesting problems in robotics and AI.</p>
-      <a href="mailto:${d.email}" class="btn btn-primary reveal reveal-3" data-cursor>Say hello</a>
+      <a href="https://mail.google.com/mail/?view=cm&fs=1&to=${d.email}" target="_blank" rel="noopener" class="btn btn-primary reveal reveal-3" data-cursor>Say hello</a>
     </div></section>`;
 
   byId('sideLeft').innerHTML =
     `<a href="${d.socials.github}" target="_blank" rel="noopener" data-cursor aria-label="GitHub">${ICONS.github}</a>` +
     `<a href="${d.socials.linkedin}" target="_blank" rel="noopener" data-cursor aria-label="LinkedIn">${ICONS.linkedin}</a>` +
-    `<a href="mailto:${d.email}" data-cursor aria-label="Email">${ICONS.mail}</a>`;
-  byId('sideRight').innerHTML = `<a href="mailto:${d.email}" class="email-vert" data-cursor>${d.email}</a>`;
+    `<a href="${d.socials.discord}" target="_blank" rel="noopener" data-cursor aria-label="Discord">${ICONS.discord}</a>` +
+    `<a href="https://mail.google.com/mail/?view=cm&fs=1&to=${d.email}" target="_blank" rel="noopener" data-cursor aria-label="Email">${ICONS.mail}</a>`;
+  byId('sideRight').innerHTML = `<a href="https://mail.google.com/mail/?view=cm&fs=1&to=${d.email}" target="_blank" rel="noopener" class="email-vert" data-cursor>${d.email}</a>`;
 
   byId('footerCopy').textContent = `© 2026 ${d.name} Mekala`;
   byId('footerSocial').innerHTML =
     `<a href="${d.socials.github}" target="_blank" rel="noopener" data-cursor>GitHub</a>` +
     `<a href="${d.socials.linkedin}" target="_blank" rel="noopener" data-cursor>LinkedIn</a>` +
+    `<a href="${d.socials.discord}" target="_blank" rel="noopener" data-cursor>Discord</a>` +
     `<a href="${d.website}" target="_blank" rel="noopener" data-cursor>mharsh.me</a>` +
     `<a href="/privacy.html" data-cursor>Privacy</a>`;
 }

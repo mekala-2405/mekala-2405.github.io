@@ -14,14 +14,15 @@ import type { PortfolioData } from './types';
 export const DATA: PortfolioData = {
   name: 'Harsh Vardhan Reddy',
   lastName: 'MEKALA',
-  role: 'Robotics & Full-Stack Developer',
+  role: 'ML/AI Engineer & Robotics Developer',
   tagline:
-    'A developer and robotics engineer building intelligent systems across <strong>perception, planning, and execution</strong>, from production robotics pipelines to full-stack web apps.',
+    'An ML/AI engineer and robotics developer building intelligent systems across <strong>perception, planning, and execution</strong>, from production robotics pipelines to AI-powered applications.',
   email: 'mekalaharshvardhanreddy@gmail.com',
   website: 'https://mharsh.me',
   socials: {
     github: 'https://github.com/mekala-2405',
     linkedin: 'https://www.linkedin.com/in/harsh-vardhan-reddy-mekala-982144307/',
+    discord: 'https://discord.com/users/1366803776580751491',
   },
   stats: [
     { value: 5, suffix: '+', label: 'Projects' },
@@ -29,7 +30,7 @@ export const DATA: PortfolioData = {
     { value: 1, suffix: '', label: 'Internship' },
   ],
   about: [
-    "I'm <strong>Harsh Vardhan Reddy Mekala</strong>, a developer focused on agentic systems, robotics, and full-stack engineering. I build things that work in the real world, from production robotics pipelines to web applications.",
+    "I'm <strong>Harsh Vardhan Reddy Mekala</strong>, an ML/AI engineer focused on agentic systems, robotics, and intelligent automation. I build things that work in the real world, from production robotics pipelines to ML-driven applications.",
     'Currently interning at <strong>Roboparadigm (Teleparadigm)</strong>, where I designed and deployed a production-grade agentic robotics system for laboratory automation. CS50P certified. Always building.',
     'Find me at <strong>mharsh.me</strong>.',
   ],
@@ -45,6 +46,7 @@ export const DATA: PortfolioData = {
       role: 'Agentic Robotics Pipeline for Lab Automation',
       desc: "Designed and deployed a production-grade agentic robotics system for laboratory automation, built around a modular perception-planning-execution stack. Integrated RealSense and webcam-based perception with YOLO instance segmentation and a VLM-driven world state module.<br><br>Task planning via a LangGraph-based dispatcher coordinating parallel async execution: world state inference, RAG-based skill retrieval, and sub-policy loading run concurrently via asyncio. Communication managed through a Redis event bus. Execution over ROS 2 and MoveIt 2, with learned motor skills as ACT and Diffusion Policy sub-policies trained using LeRobot. Trajectory generation leverages DPVO and COLMAP on AWS.",
       tags: ['ROS 2', 'LangGraph', 'YOLO', 'Redis', 'asyncio', 'LeRobot', 'AWS', 'MoveIt 2'],
+      image: '/internship.jpeg',
     },
   ],
   projects: [

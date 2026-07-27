@@ -7,4 +7,10 @@ export default defineConfig({
     target: 'es2020',
     outDir: 'dist',
   },
+  server: {
+    watch: {
+      usePolling: true,
+      interval: 300,
+    },
+  },
 });

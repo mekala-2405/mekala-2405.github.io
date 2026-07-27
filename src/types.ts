@@ -3,6 +3,7 @@
 export interface Socials {
   github: string;
   linkedin: string;
+  discord: string;
 }
 
 export interface Stat {
@@ -22,6 +23,7 @@ export interface Experience {
   role: string;
   desc: string;
   tags: string[];
+  image?: string;
 }
 
 export interface Project {
