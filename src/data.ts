@@ -30,7 +30,7 @@ export const DATA: PortfolioData = {
     { value: 1, suffix: '', label: 'Internship' },
   ],
   about: [
-    "I'm <strong>Mekala Harshvardhan Reddy</strong> (Harsh Vardhan Reddy Mekala), an ML/AI engineer focused on agentic systems, robotics, and intelligent automation. I build things that work in the real world, from production robotics pipelines to ML-driven applications.",
+    "I'm <strong>Mekala Harshvardhan Reddy</strong> , an ML/AI engineer focused on agentic systems, robotics, and intelligent automation. I build things that work in the real world, from production robotics pipelines to ML-driven applications.",
     'Currently interning at <strong>Roboparadigm (Teleparadigm)</strong>, where I designed and deployed a production-grade agentic robotics system for laboratory automation. CS50P certified. Always building.',
     'Find me at <strong>mharsh.me</strong>.',
   ],
