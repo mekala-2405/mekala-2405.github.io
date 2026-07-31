@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "port2",
+  "name": "mekala-2405-github-io",
   "compatibility_date": "2025-01-01",
   "main": "worker/index.ts",
   "assets": {
