@@ -1,16 +1,19 @@
 /// <reference types="@cloudflare/workers-types" />
 
 /**
- * Static site + geo-switched analytics, all in one Worker.
+ * Static site + geo-switched analytics + SPA fallback, all in one Worker.
  *
  * `run_worker_first` (see wrangler.jsonc) makes this Worker run before assets
- * are served, so it can fetch the static file and rewrite the HTML at the edge:
+ * are served, so it can serve index.html for SPA routes and rewrite the HTML
+ * at the edge for analytics.
  *
+ * SPA fallback: any request whose path has no file extension (e.g. /projects/punchio)
+ * receives index.html instead of a 404, letting the client-side router take over.
+ *
+ * Analytics:
  *   EU / EEA / UK   -> Cloudflare Web Analytics (cookieless, no consent banner)
  *   Everyone else   -> Google Analytics 4
  *   Unknown / Tor   -> cookieless (safe default; never risk GA4 on an EU visitor)
- *
- * Country comes from the `cf-ipcountry` header Cloudflare sets on every request.
  *
  * Set these as Variables in the Cloudflare dashboard
  * (Workers & Pages > your project > Settings > Variables and Secrets):
@@ -25,22 +28,24 @@ interface Env {
   CF_BEACON_TOKEN?: string;
 }
 
-// Countries where a cookie/consent banner would otherwise be required for GA4.
 const CONSENT_REQUIRED = new Set<string>([
-  // EU
   'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU',
   'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE',
-  // EEA (non-EU)
   'IS', 'LI', 'NO',
-  // UK
   'GB',
 ]);
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
-    const response = await env.ASSETS.fetch(request);
+    const url = new URL(request.url);
 
-    // Only rewrite HTML documents; pass CSS/JS/images through untouched.
+    // SPA fallback: paths without a file extension serve index.html
+    if (!url.pathname.match(/\.\w+$/)) {
+      url.pathname = '/index.html';
+    }
+
+    const response = await env.ASSETS.fetch(new Request(url.toString(), request));
+
     const contentType = response.headers.get('content-type') || '';
     if (!contentType.includes('text/html')) return response;
 

@@ -28,6 +28,10 @@ export interface Experience {
 
 export interface Project {
   name: string;
+  /** URL-friendly slug for /projects/:slug routing. */
+  slug: string;
+  /** Optional logo image URL. Shows first-letter fallback if empty. */
+  logo?: string;
   desc: string;
   tech: string[];
   /** Live URL. Empty string = no live demo. */
@@ -43,6 +47,8 @@ export interface ListItem {
   meta: string;
   link: string;
   cta: string;
+  /** Optional preview image. Used by certificate cards. */
+  image?: string;
 }
 
 export interface PortfolioData {
@@ -60,4 +66,5 @@ export interface PortfolioData {
   projects: Project[];
   publications: ListItem[];
   certifications: ListItem[];
+  blogs: ListItem[];
 }
