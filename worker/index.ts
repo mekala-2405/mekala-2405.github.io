@@ -39,9 +39,11 @@ export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
 
-    // SPA fallback: paths without a file extension serve index.html
+    // SPA fallback: paths without a file extension serve the site root.
+    // Cloudflare's assets service redirects /index.html to /, so fetching
+    // /index.html here would make every SPA request loop through that redirect.
     if (!url.pathname.match(/\.\w+$/)) {
-      url.pathname = '/index.html';
+      url.pathname = '/';
     }
 
     const response = await env.ASSETS.fetch(new Request(url.toString(), request));
