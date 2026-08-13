@@ -167,6 +167,15 @@ export const DATA: PortfolioData = {
   ],
   projects: [
     {
+      name: 'Dataset Assembly Studio',
+      slug: 'dataset-assembly-studio',
+      desc: 'Pipeline for downloading raw LeRobot datasets from Hugging Face, curating and balancing them locally, and exporting verified LeRobot v2.1 datasets. Includes Dataset Assembly Studio — a FastAPI web app that validates datasets, maps cameras and joints, curates episodes into versioned checkpoints, and exports normalized datasets without ever modifying the source.',
+      tech: ['Python', 'FastAPI', 'Hugging Face', 'NumPy', 'LeRobot'],
+      live: '',
+      github: 'https://github.com/mekala-2405/dataset-assembly-studio',
+      preview: false,
+    },
+    {
       name: 'Punch.io',
       slug: 'punchio',
       desc: "Turns a team's Discord conversations into a searchable project record. Syncs messages incrementally, builds a local FAISS semantic index, and uses Groq-powered RAG to answer questions with source messages attached. Self-hosted React + FastAPI frontend with a SQLite message store.",
