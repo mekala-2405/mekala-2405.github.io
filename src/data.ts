@@ -5,11 +5,10 @@
 //    adding an entry to the arrays below. Array order = display
 //    order (first project becomes _01., etc.).
 
-//    Project previews: set `preview: true` only when `live` points
-//    to a site that allows being embedded in an iframe (your own
-//    sites usually do). GitHub repo pages and many hosts block
-//    embedding, so use `preview: false` there — the card shows a
-//    lettered placeholder instead of a blank frame.
+//    Project previews: set `image: '/projects/<slug>.webp'` to show a static
+//    thumbnail instead of a live frame. Otherwise `preview: true` embeds
+//    `live` in an iframe on hover (only works when the site allows embedding),
+//    and `preview: false` shows a lettered placeholder.
 //    ============================================================ */
 // export const DATA: PortfolioData = {
 //   name: 'Harsh Vardhan Reddy',
@@ -162,7 +161,7 @@ export const DATA: PortfolioData = {
       role: 'Agentic Robotics Pipeline for Lab Automation',
       desc: "Designed and deployed a production-grade agentic robotics system for laboratory automation, built around a modular perception-planning-execution stack. Integrated RealSense and webcam-based perception with YOLO instance segmentation and a VLM-driven world state module.<br><br>Task planning via a LangGraph-based dispatcher coordinating parallel async execution: world state inference, RAG-based skill retrieval, and sub-policy loading run concurrently via asyncio. Communication managed through a Redis event bus. Execution over ROS 2 and MoveIt 2, with learned motor skills as ACT and Diffusion Policy sub-policies trained using LeRobot. Currently exploring World Action Models like DreamZero and Fast-WAM.",
       tags: ['ROS 2', 'LangGraph', 'YOLO', 'Redis', 'LeRobot', 'AWS', 'MoveIt 2', 'Docker', 'Isaac Lab', 'Cosmos by NVIDIA'],
-      image: '/internship.jpeg',
+      image: '/internship.webp',
     },
   ],
   projects: [
@@ -173,7 +172,8 @@ export const DATA: PortfolioData = {
       tech: ['Python', 'FastAPI', 'Hugging Face', 'NumPy', 'LeRobot'],
       live: 'https://projects.mharsh.me/data_assembly_studio',
       github: 'https://github.com/mekala-2405/dataset-assembly-studio',
-      preview: true,
+      preview: false,
+      image: '/projects/dataset-assembly-studio.webp',
     },
     {
       name: 'Punch.io',
@@ -182,7 +182,8 @@ export const DATA: PortfolioData = {
       tech: ['Python', 'FastAPI', 'LangChain', 'FAISS', 'SQLite', 'Groq', 'Discord API', 'Docker'],
       live: 'https://punchio.mharsh.me',
       github: 'https://github.com/mekala-2405/Punch.io',
-      preview: true,
+      preview: false,
+      image: '/projects/punchio.webp',
     },
     {
       name: 'Gesture Recognition',
@@ -200,7 +201,8 @@ export const DATA: PortfolioData = {
       tech: ['Groq', 'Google Drive API', 'LLM'],
       live: 'https://personal.health.mharsh.me',
       github: 'https://github.com/mekala-2405/ideal-octo-adventure',
-      preview: true,
+      preview: false,
+      image: '/projects/personal-health.webp',
     },
     {
       name: 'Airline Review Analyzer',
@@ -239,7 +241,7 @@ export const DATA: PortfolioData = {
       meta: 'Harvard University / CS50',
       link: 'https://certificates.cs50.io/92b6ce75-ee30-4334-a4db-5da1b067a2cb.pdf?size=letter',
       cta: 'View certificate',
-      image: '/certs/cs50p.png',
+      image: '/certs/cs50p.webp',
     },
     // {
     //   title: 'CS50P: Introduction to Programming with Python',

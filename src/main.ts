@@ -170,7 +170,7 @@ function renderApp(): void {
     )
     .join('');
 
-  const aboutHtml = `<img class="headshot" src="/headshot.jpeg" alt="Harsh Vardhan Reddy Mekala" loading="lazy" />` + d.about.map((p) => `<p>${p}</p>`).join('');
+  const aboutHtml = `<img class="headshot" src="/headshot.webp" alt="Harsh Vardhan Reddy Mekala" width="400" height="400" fetchpriority="high" />` + d.about.map((p) => `<p>${p}</p>`).join('');
 
   const expHtml = d.experience
     .map(
@@ -184,7 +184,7 @@ function renderApp(): void {
             <h3 class="work-role display">${e.role}</h3>
             <p class="work-desc">${e.desc}</p>
             <div class="work-tags">${e.tags.map((t) => `<span class="work-tag">${t}</span>`).join('')}</div>
-            ${e.image ? `<img class="exp-img" src="${e.image}" alt="${e.company}" loading="lazy" />` : ''}
+            ${e.image ? `<img class="exp-img" src="${e.image}" alt="${e.company}" width="1000" height="750" loading="lazy" />` : ''}
           </div>
         </div>`
     )
@@ -194,12 +194,16 @@ function renderApp(): void {
     .map((p, i) => {
       const num = '_' + String(i + 1).padStart(2, '0') + '.';
       const logoHtml = p.logo
-        ? `<img class="project-logo" src="${p.logo}" alt="${p.name}" loading="lazy" />`
+        ? `<img class="project-logo" src="${p.logo}" alt="${p.name}" width="48" height="48" loading="lazy" />`
         : `<div class="project-logo project-logo--ph"><span>${p.name.charAt(0)}</span></div>`;
       const nameEl = html`
         <a class="project-name display" href="/projects/${p.slug}" data-nav data-cursor>${p.name} <span class="arw">↗</span></a>`;
-      const media =
-        p.preview && p.live
+      const media = p.image
+        ? html`<div class="project-media">
+                 <img class="project-img" src="${p.image}" alt="${p.name} preview" width="1000" height="560" loading="lazy" decoding="async" />
+                 <a class="open-live" href="/projects/${p.slug}" data-nav data-cursor><span>View details ↗</span></a>
+               </div>`
+        : p.preview && p.live
           ? html`<div class="project-media" data-live="${p.live}">
                    <iframe title="${p.name} preview" loading="lazy" data-src="${p.live}" scrolling="no"></iframe>
                    <a class="open-live" href="/projects/${p.slug}" data-nav data-cursor><span>View details ↗</span></a>
@@ -242,7 +246,7 @@ function renderApp(): void {
       (c) => html`
         <a class="deck-card" href="${c.link}" target="_blank" rel="noopener" data-cursor>
           ${c.image
-            ? `<img class="cert-img" src="${c.image}" alt="${c.title}" loading="lazy" />`
+            ? `<img class="cert-img" src="${c.image}" alt="${c.title}" width="1000" height="750" loading="lazy" />`
             : `<div class="cert-ph"><span>${c.title.charAt(0)}</span></div>`}
           <div class="cert-meta">
             <p class="cert-title">${c.title}</p>

@@ -40,6 +40,8 @@ export interface Project {
   github: string;
   /** Show a live iframe preview on hover. Only works if `live` allows embedding. */
   preview: boolean;
+  /** Static preview thumbnail (e.g. '/projects/foo.webp'). Shown instead of a live iframe when set. */
+  image?: string;
 }
 
 export interface ListItem {
