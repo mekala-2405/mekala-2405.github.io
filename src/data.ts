@@ -209,7 +209,7 @@ export const DATA: PortfolioData = {
       tech: ['AI', 'NLP', 'Vercel'],
       live: 'https://v0-airline-review-analyzer.vercel.app/analyzer',
       github: '',
-      preview: true,
+      preview: false,
     },
     {
       name: 'Vakil Legal Bot',
