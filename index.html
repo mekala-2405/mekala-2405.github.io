@@ -33,8 +33,10 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Anton&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600&display=swap" />
+  </noscript>
   <!-- set theme before paint to avoid flash -->
   <script>
     (function () {
@@ -50,7 +52,6 @@
   <div class="cursor-ring"></div>
   <div class="cursor-dot"></div>
   <div id="progress"></div>
-  <div id="hoverPreview" class="hover-preview"><iframe id="hoverPreviewFrame" loading="lazy"></iframe></div>
 
   <div class="bg-anim" aria-hidden="true">
     <div class="bg-blob bg-blob-1"></div>

@@ -123,7 +123,6 @@ body.sidebar-open { overflow: hidden; }
 
 /* TECH ICONS */
 .project-tech span { display: inline-flex; align-items: center; gap: 0.35rem; }
-.project-tech span i { font-size: 1rem; }
 .tech-icon, .tech-icon--generic { width: 1.1em; height: 1.1em; flex-shrink: 0; }
 .tech-icon--nvidia { color: #76b900; }
 
@@ -178,7 +177,6 @@ section { padding: 8rem 0; }
 .skills-group-label { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
 .skills-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .skill-tag { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.35rem 0.8rem; border: 1px solid var(--border); font-size: 0.78rem; color: var(--muted); transition: all 0.2s; }
-.skill-tag i { font-size: 1rem; }
 
 /* EXPERIENCE */
 .work-item { display: grid; grid-template-columns: 210px 1fr; gap: 3rem; margin-bottom: 3rem; }
@@ -216,11 +214,6 @@ section { padding: 8rem 0; }
 .project-media iframe.shown { opacity: 1; }
 .project-media .open-live { position: absolute; inset: 0; z-index: 2; display: flex; align-items: flex-end; justify-content: flex-start; padding: 1.25rem; background: linear-gradient(to top, color-mix(in srgb, var(--bg) 65%, transparent), transparent 45%); text-decoration: none; }
 .project-media .open-live span { font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; background: var(--accent); padding: 0.4rem 0.8rem; color: var(--btn-fg); font-weight: 600; }
-
-/* HOVER PREVIEW TOOLTIP */
-.hover-preview { position: fixed; z-index: 9997; width: 360px; height: 240px; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); background: var(--bg); box-shadow: 0 16px 48px rgba(0,0,0,0.5); pointer-events: none; opacity: 0; visibility: hidden; transition: opacity 0.2s ease, visibility 0.2s ease; }
-.hover-preview.visible { opacity: 1; visibility: visible; }
-.hover-preview iframe { width: 1280px; height: 850px; border: 0; transform: scale(0.28125); transform-origin: top left; }
 
 /* PROJECT DETAIL PAGE */
 .proj-detail { padding: 10rem 0 4rem; min-height: 70vh; display: flex; flex-direction: column; justify-content: center; }
@@ -309,12 +302,12 @@ footer .container { display: flex; justify-content: space-between; align-items: 
   .hero-stats { gap: 2rem; }
 }
 @media (max-width: 768px) {
+  .bg-blob, .bg-fx span { animation: none; }
   .hero-glow { width: 400px; height: 400px; }
   .hw-back { -webkit-text-stroke: 1px var(--accent); transform: translate(4px, 4px); }
   .hero-cta { flex-direction: column; }
   .btn { width: 100%; justify-content: center; }
   .contact-heading { font-size: clamp(2.5rem, 12vw, 4rem); }
-  .hover-preview { display: none; }
 }
 @media (max-width: 600px) {
   .nav-links { display: none; }
