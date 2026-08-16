@@ -1,3 +1,38 @@
+/* Self-hosted fonts (preloaded in index.html) — no third-party CSS round-trip. */
+@font-face {
+  font-family: 'Anton';
+  src: url('/fonts/anton.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  src: url('/fonts/bricolage.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+}
+/* Metric-matched fallbacks: Arial rendered at the webfont's metrics, so the
+   swap when the real font arrives causes no layout shift (CLS). */
+@font-face {
+  font-family: 'Anton Fallback';
+  src: local('Arial'), local('Helvetica Neue'), local('Segoe UI'), local('Roboto'), local('system-ui'), local('sans-serif');
+  font-style: normal;
+  font-weight: 400;
+  size-adjust: 85%;
+  ascent-override: 118%;
+  descent-override: 33%;
+}
+@font-face {
+  font-family: 'Bricolage Grotesque Fallback';
+  src: local('Arial'), local('Helvetica Neue'), local('Segoe UI'), local('Roboto'), local('system-ui'), local('sans-serif');
+  font-style: normal;
+  font-weight: 400 600;
+  size-adjust: 100%;
+  ascent-override: 93%;
+  descent-override: 27%;
+}
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
   --bg: #101010; --surface: #181818; --border: #2a2a2a;
@@ -15,11 +50,11 @@ html { scroll-behavior: smooth; scrollbar-width: none; font-size: 110%; }
 ::-webkit-scrollbar { display: none; }
 body {
   background: var(--bg); color: var(--text);
-  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+  font-family: 'Bricolage Grotesque', 'Bricolage Grotesque Fallback', system-ui, sans-serif;
   font-size: 1rem; line-height: 1.6; overflow-x: hidden;
   transition: background 0.4s ease, color 0.4s ease;
 }
-.display { font-family: 'Anton', 'Bricolage Grotesque', sans-serif; font-weight: 400; letter-spacing: 0.01em; }
+.display { font-family: 'Anton', 'Anton Fallback', 'Bricolage Grotesque', 'Bricolage Grotesque Fallback', sans-serif; font-weight: 400; letter-spacing: 0.01em; }
 .container { max-width: 1600px; margin: 0 auto; padding: 0 5rem; }
 ::selection { background: var(--accent); color: var(--btn-fg); }
 a { color: inherit; }
@@ -66,7 +101,7 @@ a { color: inherit; }
 
 /* MINIMAL BACKGROUND ANIMATION */
 .bg-fx { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
-.bg-fx span { position: absolute; border-radius: 50%; filter: blur(75px); background: radial-gradient(circle, var(--accent-dim), transparent 70%); will-change: transform; }
+.bg-fx span { position: absolute; border-radius: 50%; filter: blur(75px); background: radial-gradient(circle, var(--accent-dim), transparent 70%); will-change: transform; transform: translateZ(0); }
 .bg-fx .b1 { width: 46vw; height: 46vw; top: -12%; left: -6%; animation: drift1 24s ease-in-out infinite; }
 .bg-fx .b2 { width: 40vw; height: 40vw; bottom: -14%; right: -8%; animation: drift2 28s ease-in-out infinite; }
 @keyframes drift1 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(16vw, 12vh); } }
@@ -77,7 +112,7 @@ a { color: inherit; }
 #preloader { position: fixed; inset: 0; z-index: 9999; background: var(--bg); display: flex; align-items: center; justify-content: center; transition: opacity 0.6s ease, visibility 0.6s; }
 #preloader.done { opacity: 0; visibility: hidden; }
 #preloader .pre-name { display: inline-block; font-size: clamp(3.5rem, 20vw, 16rem); color: var(--accent); overflow: hidden; white-space: nowrap; line-height: 1; will-change: transform; }
-#preloader .pre-name span { display: inline-block; transform: translateY(105%); animation: preUp 0.6s cubic-bezier(0.5,0,0.2,1) forwards; }
+#preloader .pre-name span { display: inline-block; transform: translateY(105%); animation: preUp 0.6s cubic-bezier(0.5,0,0.2,1) forwards; will-change: transform; }
 @keyframes preUp { to { transform: translateY(0); } }
 
 /* CURSOR */
@@ -151,7 +186,7 @@ section { padding: 8rem 0; }
 .hero-name { display: inline-block; font-size: clamp(3rem, 11vw, 8rem); line-height: 1; color: var(--accent); margin: 0.15rem 0 0; will-change: transform, opacity; }
 .hero-words { margin-top: 1.5rem; }
 .hw-line { position: relative; line-height: 0.92; }
-.hw-front, .hw-back { display: block; font-family: 'Anton', sans-serif; font-size: clamp(2.6rem, 9vw, 6.5rem); letter-spacing: 0.01em; }
+.hw-front, .hw-back { display: block; font-family: 'Anton', 'Anton Fallback', sans-serif; font-size: clamp(2.6rem, 9vw, 6.5rem); letter-spacing: 0.01em; }
 .hw-front { position: relative; z-index: 2; color: var(--text); }
 .hw-back { position: absolute; top: 0; left: 0; z-index: 1; color: transparent; -webkit-text-stroke: 1.5px var(--accent); transform: translate(7px, 7px); opacity: 0.35; }
 .hero-desc { margin-top: 1.75rem; font-size: 1.1rem; color: var(--muted); max-width: 560px; }
@@ -164,7 +199,7 @@ section { padding: 8rem 0; }
 .hero-avail .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
 @keyframes pulse { 0% { box-shadow: 0 0 0 0 var(--accent-dim); } 70% { box-shadow: 0 0 0 10px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
 .hero-stats { display: flex; gap: 3.5rem; margin-top: 3.5rem; flex-wrap: wrap; }
-.stat h5 { font-family: 'Anton', sans-serif; font-size: clamp(2.2rem, 4vw, 3rem); color: var(--accent); line-height: 1; }
+.stat h5 { font-family: 'Anton', 'Anton Fallback', sans-serif; font-size: clamp(2.2rem, 4vw, 3rem); color: var(--accent); line-height: 1; }
 .stat p { font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.4rem; }
 
 /* ABOUT */
@@ -197,7 +232,7 @@ section { padding: 8rem 0; }
 .project-num { font-size: 0.85rem; letter-spacing: 0.15em; color: var(--accent); font-family: 'Anton', monospace; margin-bottom: 1.1rem; }
 .project-logo { width: 48px; height: 48px; border-radius: 10px; overflow: hidden; margin-bottom: 1.25rem; object-fit: cover; background: var(--bg); border: 1px solid var(--border); }
 .project-logo--ph { display: grid; place-items: center; }
-.project-logo--ph span { font-family: 'Anton', sans-serif; font-size: 1.4rem; color: var(--muted); }
+.project-logo--ph span { font-family: 'Anton', 'Anton Fallback', sans-serif; font-size: 1.4rem; color: var(--muted); }
 .project-name { font-size: 1.8rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
 .project-name .arw { transition: transform 0.2s; color: var(--accent); font-size: 1.4rem; }
 .project-desc { font-size: 1.05rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; }
@@ -209,7 +244,7 @@ section { padding: 8rem 0; }
 /* PROJECT MEDIA / LIVE PREVIEW */
 .project-media { position: relative; min-height: 340px; background: var(--bg); overflow: hidden; }
 .project-media .ph { position: absolute; inset: 0; display: grid; place-items: center; background: linear-gradient(135deg, var(--accent-dim), transparent), var(--surface); }
-.project-media .ph span { font-family: 'Anton', sans-serif; font-size: 4rem; color: var(--accent); opacity: 0.55; }
+.project-media .ph span { font-family: 'Anton', 'Anton Fallback', sans-serif; font-size: 4rem; color: var(--accent); opacity: 0.55; }
 .project-media iframe { position: absolute; top: 0; left: 0; width: 1280px; height: 850px; border: 0; transform: scale(0.46); transform-origin: top left; pointer-events: none; background: #fff; opacity: 0; transition: opacity 0.4s ease; }
 .project-media iframe.shown { opacity: 1; }
 .project-media img.project-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; }
@@ -254,7 +289,7 @@ section { padding: 8rem 0; }
 .deck-card.is-top { border-color: var(--accent); box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.55); }
 .cert-img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; display: block; background: var(--bg); }
 .cert-ph { width: 100%; aspect-ratio: 4 / 3; display: grid; place-items: center; background: linear-gradient(135deg, var(--accent-dim), transparent), var(--surface); }
-.cert-ph span { font-family: 'Anton', sans-serif; font-size: 3rem; color: var(--accent); opacity: 0.6; }
+.cert-ph span { font-family: 'Anton', 'Anton Fallback', sans-serif; font-size: 3rem; color: var(--accent); opacity: 0.6; }
 .cert-meta { padding: 1rem 1.25rem 1.25rem; }
 .cert-title { font-size: 0.95rem; font-weight: 500; line-height: 1.4; margin-bottom: 0.4rem; }
 .cert-sub { font-size: 0.78rem; color: var(--muted); }

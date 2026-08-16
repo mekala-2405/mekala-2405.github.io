@@ -475,15 +475,23 @@ function afterRender(): void {
 
 const bar = byId('progress');
 let heroInner: HTMLElement | null;
+let scrollQueued = false;
 window.addEventListener(
   'scroll',
   () => {
-    const h = document.documentElement;
-    bar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100 + '%';
-    if (heroInner && h.scrollTop < window.innerHeight) {
-      heroInner.style.transform = `translateY(${-h.scrollTop * 0.2}px)`;
-      heroInner.style.opacity = String(Math.max(0, 1 - h.scrollTop / (window.innerHeight * 0.75)));
-    }
+    if (scrollQueued) return;
+    scrollQueued = true;
+    requestAnimationFrame(() => {
+      scrollQueued = false;
+      const h = document.documentElement;
+      const st = h.scrollTop;
+      const vh = window.innerHeight;
+      bar.style.width = (st / (h.scrollHeight - h.clientHeight)) * 100 + '%';
+      if (heroInner && st < vh) {
+        heroInner.style.transform = `translateY(${-st * 0.2}px)`;
+        heroInner.style.opacity = String(Math.max(0, 1 - st / (vh * 0.75)));
+      }
+    });
   },
   { passive: true }
 );
@@ -499,17 +507,19 @@ if (window.matchMedia('(pointer: fine)').matches && !window.matchMedia('(prefers
   const ring = qs('.cursor-ring');
   if (dot && ring) {
     let mx = 0, my = 0, rx = 0, ry = 0;
-    window.addEventListener('mousemove', (e) => {
-      mx = e.clientX;
-      my = e.clientY;
-      dot.style.left = mx + 'px';
-      dot.style.top = my + 'px';
-    });
+    window.addEventListener(
+      'mousemove',
+      (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+        dot.style.transform = `translate3d(${mx}px, ${my}px, 0) translate(-50%, -50%)`;
+      },
+      { passive: true }
+    );
     const loop = () => {
       rx += (mx - rx) * 0.18;
       ry += (my - ry) * 0.18;
-      ring.style.left = rx + 'px';
-      ring.style.top = ry + 'px';
+      ring.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`;
       requestAnimationFrame(loop);
     };
     loop();
@@ -561,10 +571,13 @@ function runIntro(): void {
 
 /* ============ boot ============ */
 
-byId('preName').innerHTML = DATA.lastName
-  .split('')
-  .map((c, i) => `<span style="animation-delay:${i * 0.05}s">${c}</span>`)
-  .join('');
+const preNameEl = byId('preName');
+if (!preNameEl.childElementCount) {
+  preNameEl.innerHTML = DATA.lastName
+    .split('')
+    .map((c, i) => `<span style="animation-delay:${i * 0.05}s">${c}</span>`)
+    .join('');
+}
 
 // sidebar toggle
 const hamburger = byId('hamburger');
