@@ -95,11 +95,12 @@ export default {
     // the site root — everything else is a real 404. Previously every such
     // path (e.g. /project_gig) served the homepage with a 200, which looks
     // like a soft-404/duplicate to Google.
-    if (!path.match(/\.\w+$/)) {
+    // NOTE: /privacy is exempt — the asset service strips the .html and
+    // serves privacy.html's content at /privacy, so redirecting between the
+    // two forms loops forever. /privacy.html itself 307s to /privacy.
+    if (!path.match(/\.\w+$/) && path !== '/privacy') {
       if (path === '/') {
         url.pathname = '/';
-      } else if (path === '/privacy') {
-        return Response.redirect(new URL('/privacy.html', url.origin).toString(), 301);
       } else if (/^\/projects\/[^/]+$/.test(path)) {
         // Project detail page — serve the pre-rendered file when the build
         // produced one. The asset service only serves a directory's index.html

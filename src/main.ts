@@ -388,7 +388,7 @@ function renderApp(): void {
     `<a href="${d.socials.linkedin}" target="_blank" rel="noopener" data-cursor>LinkedIn</a>` +
     `<a href="${d.socials.discord}" target="_blank" rel="noopener" data-cursor>Discord</a>` +
     `<a href="${d.website}" target="_blank" rel="noopener" data-cursor>mharsh.me</a>` +
-    `<a href="/privacy.html" data-cursor>Privacy</a>`;
+    `<a href="/privacy" data-cursor>Privacy</a>`;
 
   const sidebarSocial = document.getElementById('sidebarSocial');
   if (sidebarSocial) {
