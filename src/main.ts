@@ -87,6 +87,7 @@ function navigate(url: string): void {
   router();
   if (hashPart) {
     setTimeout(() => {
+      if (hashPart === 'projects' && scrollToLastProject()) return;
       document.getElementById(hashPart)?.scrollIntoView({ behavior: 'smooth' });
     }, 50);
   }
@@ -121,6 +122,32 @@ function setPageMeta(meta: { title: string; description: string; ogTitle: string
   setMetaContent('property', 'og:url', SITE_ORIGIN + meta.path);
 }
 
+/* Remember the last-viewed project so "Back to projects" can return to the
+   exact card that was clicked instead of the top of the section. */
+const LAST_PROJECT_KEY = 'last-project';
+
+function rememberProject(slug: string): void {
+  try {
+    localStorage.setItem(LAST_PROJECT_KEY, slug);
+  } catch {
+    /* private mode — position restore just won't persist */
+  }
+}
+
+function scrollToLastProject(): boolean {
+  let slug: string | null = null;
+  try {
+    slug = localStorage.getItem(LAST_PROJECT_KEY);
+  } catch {
+    return false;
+  }
+  if (!slug) return false;
+  const card = document.getElementById(`project-${slug}`);
+  if (!card) return false;
+  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  return true;
+}
+
 function router(): void {
   const rawPath = window.location.pathname;
   const path = rawPath.length > 1 && rawPath.endsWith('/') ? rawPath.slice(0, -1) : rawPath;
@@ -133,6 +160,7 @@ function router(): void {
       return;
     }
     renderProjectDetail(slug);
+    rememberProject(slug);
     setPageMeta({
       title: `${p.name} — Projects by Harsh Vardhan Reddy Mekala`,
       description: p.desc,
@@ -147,6 +175,7 @@ function router(): void {
     const hash = window.location.hash.slice(1);
     if (hash) {
       setTimeout(() => {
+        if (hash === 'projects' && scrollToLastProject()) return;
         document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth' });
       }, 50);
     }
@@ -260,7 +289,7 @@ function renderApp(): void {
         p.github ? `<a class="project-link" href="${p.github}" target="_blank" rel="noopener" data-cursor>GitHub ↗</a>` : '',
       ].filter(Boolean).join('');
       return html`
-        <div class="project-card reveal reveal-${(i % 4) + 1}">
+        <div class="project-card reveal reveal-${(i % 4) + 1}" id="project-${p.slug}">
           <div class="project-body">
             <p class="project-num">${num}</p>
             ${logoHtml}
