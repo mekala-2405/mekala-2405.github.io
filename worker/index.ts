@@ -53,6 +53,36 @@ function notFound(): Response {
   });
 }
 
+function withAnalytics(response: Response, request: Request, env: Env): Response {
+  const contentType = response.headers.get('content-type') || '';
+  if (!contentType.includes('text/html')) return response;
+
+  const country = (request.headers.get('cf-ipcountry') || '').toUpperCase();
+  const cookieless =
+    country === '' || country === 'XX' || country === 'T1' || CONSENT_REQUIRED.has(country);
+
+  let snippet = '';
+  if (cookieless) {
+    if (env.CF_BEACON_TOKEN) {
+      snippet = `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"${env.CF_BEACON_TOKEN}"}'></script>`;
+    }
+  } else if (env.GA4_ID) {
+    snippet =
+      `<script async src="https://www.googletagmanager.com/gtag/js?id=${env.GA4_ID}"></script>` +
+      `<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${env.GA4_ID}');</script>`;
+  }
+
+  if (!snippet) return response;
+
+  return new HTMLRewriter()
+    .on('head', {
+      element(el) {
+        el.append(snippet, { html: true });
+      },
+    })
+    .transform(response);
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
@@ -71,8 +101,18 @@ export default {
       } else if (path === '/privacy') {
         return Response.redirect(new URL('/privacy.html', url.origin).toString(), 301);
       } else if (/^\/projects\/[^/]+$/.test(path)) {
-        // Project detail page — client-side router renders it (or sends the
-        // visitor home for an unknown slug).
+        // Project detail page — serve the pre-rendered file when the build
+        // produced one. The asset service only serves a directory's index.html
+        // for the trailing-slash path, so request that shape explicitly.
+        // Unknown slugs 404 here and fall back to the homepage, where the
+        // client-side router sends the visitor home.
+        const dirUrl = new URL(url.toString());
+        dirUrl.pathname = `${path}/`;
+        const direct = await env.ASSETS.fetch(new Request(dirUrl.toString(), request));
+        const directType = direct.headers.get('content-type') || '';
+        if (direct.ok && directType.includes('text/html')) {
+          return withAnalytics(direct, request, env);
+        }
         url.pathname = '/';
       } else {
         return notFound();
@@ -80,33 +120,6 @@ export default {
     }
 
     const response = await env.ASSETS.fetch(new Request(url.toString(), request));
-
-    const contentType = response.headers.get('content-type') || '';
-    if (!contentType.includes('text/html')) return response;
-
-    const country = (request.headers.get('cf-ipcountry') || '').toUpperCase();
-    const cookieless =
-      country === '' || country === 'XX' || country === 'T1' || CONSENT_REQUIRED.has(country);
-
-    let snippet = '';
-    if (cookieless) {
-      if (env.CF_BEACON_TOKEN) {
-        snippet = `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"${env.CF_BEACON_TOKEN}"}'></script>`;
-      }
-    } else if (env.GA4_ID) {
-      snippet =
-        `<script async src="https://www.googletagmanager.com/gtag/js?id=${env.GA4_ID}"></script>` +
-        `<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${env.GA4_ID}');</script>`;
-    }
-
-    if (!snippet) return response;
-
-    return new HTMLRewriter()
-      .on('head', {
-        element(el) {
-          el.append(snippet, { html: true });
-        },
-      })
-      .transform(response);
+    return withAnalytics(response, request, env);
   },
 } satisfies ExportedHandler<Env>;
