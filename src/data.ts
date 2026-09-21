@@ -207,7 +207,7 @@ export const DATA: PortfolioData = {
     {
       name: 'Airline Review Analyzer',
       slug: 'airline-review-analyzer',
-      desc: 'Analyzes airline reviews to surface insights and sentiment patterns.',
+      desc: 'Web app that analyzes airline passenger reviews to surface sentiment trends and recurring themes across carriers — covering aspects like delays, service quality, and comfort. Load reviews and get an at-a-glance breakdown of what travelers complain about and praise.',
       tech: ['AI', 'NLP', 'Vercel'],
       live: 'https://v0-airline-review-analyzer.vercel.app/analyzer',
       github: '',
@@ -216,7 +216,7 @@ export const DATA: PortfolioData = {
     {
       name: 'Vakil Legal Bot',
       slug: 'vakil-legal-bot',
-      desc: 'A hackathon project: a legal bot that helps users navigate and understand complex legal jargon.',
+      desc: 'Hackathon-built legal assistant that translates complex legal jargon into plain English. Ask questions in everyday language and get clear explanations of legal terms, clauses, and procedures — aimed at people without a legal background.',
       tech: ['NLP', 'Python'],
       live: '',
       github: '',
