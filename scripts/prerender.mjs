@@ -61,6 +61,21 @@ try {
     writeFileSync(join(dir, 'index.html'), html);
     console.log(`prerendered /projects/${p.slug}`);
   }
+
+  // Sitemap: keep public/sitemap.xml as the source for the static entries
+  // (home, privacy) and inject one entry per pre-rendered project page, so
+  // the sitemap can never go stale when slugs change.
+  const today = new Date().toISOString().slice(0, 10);
+  const sitemapPath = join(root, 'dist', 'sitemap.xml');
+  const projectUrls = DATA.projects
+    .map(
+      (p) =>
+        `  <url>\n    <loc>https://mharsh.me/projects/${p.slug}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.8</priority>\n  </url>`,
+    )
+    .join('\n');
+  const sitemap = readFileSync(sitemapPath, 'utf8').replace('</urlset>', `${projectUrls}\n</urlset>`);
+  writeFileSync(sitemapPath, sitemap);
+  console.log(`sitemap updated with ${DATA.projects.length} project URLs`);
 } finally {
   rmSync(tmp, { recursive: true, force: true });
 }
