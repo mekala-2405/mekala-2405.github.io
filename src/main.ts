@@ -92,13 +92,57 @@ function navigate(url: string): void {
   }
 }
 
+/* ============ per-route meta (SEO) ============ */
+
+const SITE_ORIGIN = 'https://mharsh.me';
+
+const HOME_META = {
+  title: 'Mekala Harshvardhan Reddy | Harsh Vardhan Reddy Mekala - ML/AI Engineer & Robotics Developer',
+  description:
+    'Mekala Harshvardhan Reddy (Harsh Vardhan Reddy Mekala) — ML/AI Engineer & Robotics Developer. Portfolio showcasing projects in agentic systems, computer vision, and intelligent automation.',
+  ogTitle: 'Mekala Harshvardhan Reddy | ML/AI Engineer & Robotics Developer',
+  ogDescription:
+    'Portfolio of Mekala Harshvardhan Reddy — ML/AI engineer building intelligent systems across perception, planning, and execution.',
+  path: '/',
+};
+
+function setMetaContent(attr: string, key: string, value: string): void {
+  const el = document.querySelector<HTMLMetaElement>(`meta[${attr}="${key}"]`);
+  if (el) el.content = value;
+}
+
+function setPageMeta(meta: { title: string; description: string; ogTitle: string; ogDescription: string; path: string }): void {
+  document.title = meta.title;
+  setMetaContent('name', 'description', meta.description);
+  const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+  if (canonical) canonical.href = SITE_ORIGIN + meta.path;
+  setMetaContent('property', 'og:title', meta.ogTitle);
+  setMetaContent('property', 'og:description', meta.ogDescription);
+  setMetaContent('property', 'og:url', SITE_ORIGIN + meta.path);
+}
+
 function router(): void {
-  const path = window.location.pathname;
+  const rawPath = window.location.pathname;
+  const path = rawPath.length > 1 && rawPath.endsWith('/') ? rawPath.slice(0, -1) : rawPath;
   const match = path.match(/^\/projects\/(.+)$/);
   if (match) {
-    renderProjectDetail(match[1]);
+    const slug = match[1];
+    const p = DATA.projects.find((proj) => proj.slug === slug);
+    if (!p) {
+      navigate('/');
+      return;
+    }
+    renderProjectDetail(slug);
+    setPageMeta({
+      title: `${p.name} — Projects by Harsh Vardhan Reddy Mekala`,
+      description: p.desc,
+      ogTitle: `${p.name} | Harsh Vardhan Reddy Mekala`,
+      ogDescription: p.desc,
+      path: `/projects/${p.slug}`,
+    });
   } else {
     renderApp();
+    setPageMeta(HOME_META);
     afterRender();
     const hash = window.location.hash.slice(1);
     if (hash) {
