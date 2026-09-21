@@ -62,6 +62,22 @@ try {
     console.log(`prerendered /projects/${p.slug}`);
   }
 
+  // Homepage hero: inline the key text (role, name, headline) so crawlers see
+  // real content before JavaScript runs. The client router replaces this
+  // snapshot on load, so visitors see no difference. Plain classes only (no
+  // `reveal`) so the text stays visible even with JS disabled.
+  const homePath = join(root, 'dist', 'index.html');
+  const home = readFileSync(homePath, 'utf8');
+  const heroSnapshot =
+    `<section id="hero"><div class="container">` +
+    `<p class="hero-eyebrow">${esc(DATA.role)}</p>` +
+    `<div class="hero-firstname display">${esc(DATA.name)}</div>` +
+    `<h1 class="hero-name display">${esc(DATA.lastName)}</h1>` +
+    `<p class="hero-desc">${DATA.tagline}</p>` +
+    `</div></section>`;
+  writeFileSync(homePath, home.replace('<main id="app"></main>', `<main id="app">${heroSnapshot}</main>`));
+  console.log('homepage hero inlined');
+
   // Sitemap: keep public/sitemap.xml as the source for the static entries
   // (home, privacy) and inject one entry per pre-rendered project page, so
   // the sitemap can never go stale when slugs change.
