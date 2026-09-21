@@ -35,15 +35,48 @@ const CONSENT_REQUIRED = new Set<string>([
   'GB',
 ]);
 
+const NOT_FOUND_HTML = `<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Not found — Harsh Vardhan Reddy Mekala</title>
+<meta name="robots" content="noindex" />
+<style>body{background:#101010;color:#dedede;font-family:system-ui,sans-serif;display:grid;place-items:center;min-height:100vh;margin:0}a{color:#c9a84c}</style>
+</head><body><main style="text-align:center">
+<h1>404 — page not found</h1>
+<p><a href="/">← Back to mharsh.me</a></p>
+</main></body></html>`;
+
+function notFound(): Response {
+  return new Response(NOT_FOUND_HTML, {
+    status: 404,
+    headers: { 'content-type': 'text/html; charset=UTF-8', 'cache-control': 'no-store' },
+  });
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
 
-    // SPA fallback: paths without a file extension serve the site root.
-    // Cloudflare's assets service redirects /index.html to /, so fetching
-    // /index.html here would make every SPA request loop through that redirect.
-    if (!url.pathname.match(/\.\w+$/)) {
-      url.pathname = '/';
+    // Normalize trailing slash (except root) so /projects/x/ matches /projects/x.
+    let path = url.pathname;
+    if (path.length > 1 && path.endsWith('/')) path = path.slice(0, -1);
+
+    // Extensionless URLs are app routes, not files. Only known routes serve
+    // the site root — everything else is a real 404. Previously every such
+    // path (e.g. /project_gig) served the homepage with a 200, which looks
+    // like a soft-404/duplicate to Google.
+    if (!path.match(/\.\w+$/)) {
+      if (path === '/') {
+        url.pathname = '/';
+      } else if (path === '/privacy') {
+        return Response.redirect(new URL('/privacy.html', url.origin).toString(), 301);
+      } else if (/^\/projects\/[^/]+$/.test(path)) {
+        // Project detail page — client-side router renders it (or sends the
+        // visitor home for an unknown slug).
+        url.pathname = '/';
+      } else {
+        return notFound();
+      }
     }
 
     const response = await env.ASSETS.fetch(new Request(url.toString(), request));
