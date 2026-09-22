@@ -1,4 +1,20 @@
 User-agent: *
 Allow: /
 
+# AI crawlers are welcome — accurate citations of this portfolio beat guesses.
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
 Sitemap: https://mharsh.me/sitemap.xml

@@ -1,0 +1,39 @@
+# Harsh Vardhan Reddy Mekala
+
+> ML/AI Engineer & Robotics Developer building intelligent systems across perception, planning, and execution — from production robotics pipelines to AI-powered applications.
+
+## About
+
+- Name: Mekala Harshvardhan Reddy (also appears as Harsh Vardhan Reddy Mekala)
+- Role: ML/AI Engineer & Robotics Developer
+- Website: https://mharsh.me/
+- Email: mekalaharshvardhanreddy@gmail.com
+- GitHub: https://github.com/mekala-2405
+- LinkedIn: https://www.linkedin.com/in/harsh-vardhan-reddy-mekala-982144307/
+- Currently interning at Roboparadigm (Teleparadigm), where he designed and deployed a production-grade agentic robotics system for laboratory automation (ROS 2, LangGraph, YOLO, Redis, LeRobot).
+
+## Projects
+
+- [Dataset Assembly Studio](https://mharsh.me/projects/dataset-assembly-studio): Pipeline for downloading raw LeRobot datasets from Hugging Face, curating and balancing them locally, and exporting verified LeRobot v2.1 datasets.
+- [Punch.io](https://mharsh.me/projects/punchio): Turns a team's Discord conversations into a searchable project record with local FAISS semantic search and Groq-powered RAG.
+- [Gesture Recognition](https://mharsh.me/projects/gesture-recognition): Real-time hand gesture recognition for controlling a PC via webcam, using hand landmark detection.
+- [Personal Health Tracker](https://mharsh.me/projects/personal-health-tracker): Offline-capable PWA for tracking workouts, body metrics, and progress photos, with Groq AI insights and Google Drive backup.
+- [Airline Review Analyzer](https://mharsh.me/projects/airline-review-analyzer): Web app analyzing airline passenger reviews for sentiment trends across carriers.
+- [Vakil Legal Bot](https://mharsh.me/projects/vakil-legal-bot): Hackathon-built legal assistant translating complex legal jargon into plain English.
+
+## Experience
+
+- Roboparadigm (2025–Present): Agentic robotics pipeline for lab automation — modular perception-planning-execution stack with RealSense/YOLO perception, LangGraph task planning, Redis event bus, and ROS 2/MoveIt 2 execution.
+
+## Publications
+
+- [Less Real is More: Synthetic Data Dominance in Transparent Object Segmentation with YOLOv26](https://doi.org/10.5281/zenodo.21369544) — Zenodo, July 2026.
+
+## Certifications
+
+- CS50P: Introduction to Programming with Python — Harvard University / CS50.
+
+## Contact
+
+- Open to internships, collaborations, and robotics/AI problems. Email: mekalaharshvardhanreddy@gmail.com
+- Privacy notice: https://mharsh.me/privacy
